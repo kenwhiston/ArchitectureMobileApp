@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CatchingPokemon
 import androidx.compose.material.icons.filled.Checklist
+import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,12 +41,14 @@ import androidx.compose.ui.unit.dp
  * Permite al usuario elegir entre:
  * 1. Demo de Tareas (Room Database + Flow + MVVM)
  * 2. Demo Pokédex (PokéAPI + Retrofit + Coil + MVVM)
+ * 3. Demo Cámara (CameraX + Jetpack Compose + MVVM)
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainSelectionScreen(
     onNavigateToTasksDemo: () -> Unit,
     onNavigateToPokemonDemo: () -> Unit,
+    onNavigateToCameraDemo: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -75,12 +78,12 @@ fun MainSelectionScreen(
             )
 
             Text(
-                text = "Ambos demos siguen la arquitectura recomendada por Google (MVVM + Repository + StateFlow + Navigation Compose).",
+                text = "Todos los demos siguen la arquitectura recomendada por Google (MVVM + Repository + StateFlow + Navigation Compose).",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             // Opción 1: Demo de Tareas / Notas (Room)
             DemoOptionCard(
@@ -95,11 +98,21 @@ fun MainSelectionScreen(
             // Opción 2: Demo PokéAPI (Retrofit + Coil)
             DemoOptionCard(
                 title = "Demo Pokédex PokéAPI",
-                subtitle = "Consumo de API REST remota con Retrofit 2, carga asíncrona de imágenes de arte oficial con Coil, buscador en tiempo real y estadísticas de Pokémon.",
+                subtitle = "Consumo de API REST remota con Retrofit 2, carga asíncrona de imágenes de arte oficial con Coil, buscador en tiempo real y estadísticas.",
                 icon = Icons.Default.CatchingPokemon,
                 badgeText = "Retrofit + Coil + MVVM",
                 containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f),
                 onClick = onNavigateToPokemonDemo
+            )
+
+            // Opción 3: Demo Cámara (CameraX)
+            DemoOptionCard(
+                title = "Demo Cámara CameraX",
+                subtitle = "Uso de la librería Jetpack CameraX, vista previa en tiempo real (PreviewView), alternado de lentes frontal/trasera y captura de fotografías.",
+                icon = Icons.Default.PhotoCamera,
+                badgeText = "CameraX + Compose",
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.6f),
+                onClick = onNavigateToCameraDemo
             )
         }
     }

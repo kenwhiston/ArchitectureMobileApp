@@ -11,6 +11,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.jassgroup.architecturemobileapp.ui.add_edit.AddEditTaskScreen
 import com.jassgroup.architecturemobileapp.ui.add_edit.AddEditViewModel
+import com.jassgroup.architecturemobileapp.ui.camera.CameraScreen
+import com.jassgroup.architecturemobileapp.ui.camera.CameraViewModel
 import com.jassgroup.architecturemobileapp.ui.factory.AppViewModelProvider
 import com.jassgroup.architecturemobileapp.ui.home.HomeScreen
 import com.jassgroup.architecturemobileapp.ui.home.HomeViewModel
@@ -23,9 +25,10 @@ import com.jassgroup.architecturemobileapp.ui.pokemon.list.PokemonListViewModel
 /**
  * Grafo de navegación central de la aplicación.
  *
- * Administra el flujo entre el Menú Principal y los dos demos:
+ * Administra el flujo entre el Menú Principal y los tres demos:
  * 1. Demo Tareas / Notas (Room DB + Flow)
  * 2. Demo Pokédex (PokéAPI + Retrofit + Coil)
+ * 3. Demo Cámara (CameraX + Jetpack Compose)
  */
 @Composable
 fun AppNavGraph(
@@ -45,6 +48,9 @@ fun AppNavGraph(
                 },
                 onNavigateToPokemonDemo = {
                     navController.navigate(Screen.PokemonList.route)
+                },
+                onNavigateToCameraDemo = {
+                    navController.navigate(Screen.CameraDemo.route)
                 }
             )
         }
@@ -132,6 +138,17 @@ fun AppNavGraph(
             PokemonDetailScreen(
                 pokemonIdOrName = pokemonIdOrName,
                 viewModel = pokemonDetailViewModel,
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        // --- DEMO 3: CAMERAX (CÁMARA Y CAPTURA DE FOTOS) ---
+        composable(route = Screen.CameraDemo.route) {
+            val cameraViewModel: CameraViewModel = viewModel(factory = AppViewModelProvider.Factory)
+            CameraScreen(
+                viewModel = cameraViewModel,
                 onNavigateBack = {
                     navController.popBackStack()
                 }

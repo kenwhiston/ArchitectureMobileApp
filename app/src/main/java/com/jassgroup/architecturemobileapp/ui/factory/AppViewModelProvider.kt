@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jassgroup.architecturemobileapp.TaskApplication
 import com.jassgroup.architecturemobileapp.ui.add_edit.AddEditViewModel
+import com.jassgroup.architecturemobileapp.ui.camera.CameraViewModel
 import com.jassgroup.architecturemobileapp.ui.home.HomeViewModel
 import com.jassgroup.architecturemobileapp.ui.pokemon.detail.PokemonDetailViewModel
 import com.jassgroup.architecturemobileapp.ui.pokemon.list.PokemonListViewModel
@@ -43,6 +44,11 @@ object AppViewModelProvider {
             PokemonDetailViewModel(
                 repository = taskApplication().pokemonRepository
             )
+        }
+
+        // Inicializador para CameraViewModel (Demo CameraX)
+        initializer {
+            CameraViewModel()
         }
     }
 }

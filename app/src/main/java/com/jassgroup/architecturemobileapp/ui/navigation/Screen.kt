@@ -20,6 +20,9 @@ sealed class Screen(val route: String) {
         fun createRoute(pokemonId: String): String = "pokemon_detail/$pokemonId"
     }
 
+    // Demo Cámara (CameraX)
+    data object CameraDemo : Screen("camera_demo")
+
     companion object {
         const val TASK_ID_ARG = "taskId"
         const val POKEMON_ID_ARG = "pokemonId"

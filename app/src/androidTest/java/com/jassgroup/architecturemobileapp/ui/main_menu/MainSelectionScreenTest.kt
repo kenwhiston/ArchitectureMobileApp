@@ -23,7 +23,8 @@ class MainSelectionScreenTest {
             ArchitectureMobileAppTheme {
                 MainSelectionScreen(
                     onNavigateToTasksDemo = {},
-                    onNavigateToPokemonDemo = {}
+                    onNavigateToPokemonDemo = {},
+                    onNavigateToCameraDemo = {}
                 )
             }
         }
@@ -31,6 +32,7 @@ class MainSelectionScreenTest {
         composeTestRule.onNodeWithText("Demos de Arquitectura Android").assertIsDisplayed()
         composeTestRule.onNodeWithText("Demo Tareas / Notas").assertIsDisplayed()
         composeTestRule.onNodeWithText("Demo Pokédex PokéAPI").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Demo Cámara CameraX").assertIsDisplayed()
     }
 
     @Test
@@ -41,7 +43,8 @@ class MainSelectionScreenTest {
             ArchitectureMobileAppTheme {
                 MainSelectionScreen(
                     onNavigateToTasksDemo = { tasksClicked = true },
-                    onNavigateToPokemonDemo = {}
+                    onNavigateToPokemonDemo = {},
+                    onNavigateToCameraDemo = {}
                 )
             }
         }
@@ -58,12 +61,31 @@ class MainSelectionScreenTest {
             ArchitectureMobileAppTheme {
                 MainSelectionScreen(
                     onNavigateToTasksDemo = {},
-                    onNavigateToPokemonDemo = { pokemonClicked = true }
+                    onNavigateToPokemonDemo = { pokemonClicked = true },
+                    onNavigateToCameraDemo = {}
                 )
             }
         }
 
         composeTestRule.onNodeWithText("Demo Pokédex PokéAPI").performClick()
         assertTrue(pokemonClicked)
+    }
+
+    @Test
+    fun clicEnTarjetaCamara_ejecutaCallback() {
+        var cameraClicked = false
+
+        composeTestRule.setContent {
+            ArchitectureMobileAppTheme {
+                MainSelectionScreen(
+                    onNavigateToTasksDemo = {},
+                    onNavigateToPokemonDemo = {},
+                    onNavigateToCameraDemo = { cameraClicked = true }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("Demo Cámara CameraX").performClick()
+        assertTrue(cameraClicked)
     }
 }
