@@ -55,4 +55,10 @@ interface TaskDao {
      */
     @Query("DELETE FROM tasks WHERE id = :id")
     suspend fun deleteTaskById(id: Int)
+
+    /**
+     * Obtiene los títulos de las tareas que coincidan con ('1','2','3').
+     */
+    @Query("SELECT title FROM tasks WHERE title IN ('1','2','3')")
+    fun getAllTitles(): Flow<List<String>>
 }
