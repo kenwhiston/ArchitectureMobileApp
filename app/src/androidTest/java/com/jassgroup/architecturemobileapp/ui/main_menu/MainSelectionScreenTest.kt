@@ -24,7 +24,8 @@ class MainSelectionScreenTest {
                 MainSelectionScreen(
                     onNavigateToTasksDemo = {},
                     onNavigateToPokemonDemo = {},
-                    onNavigateToCameraDemo = {}
+                    onNavigateToCameraDemo = {},
+                    onNavigateToFirebaseDemo = {}
                 )
             }
         }
@@ -33,6 +34,7 @@ class MainSelectionScreenTest {
         composeTestRule.onNodeWithText("Demo Tareas / Notas").assertIsDisplayed()
         composeTestRule.onNodeWithText("Demo Pokédex PokéAPI").assertIsDisplayed()
         composeTestRule.onNodeWithText("Demo Cámara CameraX").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Batería Demos Firebase").assertIsDisplayed()
     }
 
     @Test
@@ -44,7 +46,8 @@ class MainSelectionScreenTest {
                 MainSelectionScreen(
                     onNavigateToTasksDemo = { tasksClicked = true },
                     onNavigateToPokemonDemo = {},
-                    onNavigateToCameraDemo = {}
+                    onNavigateToCameraDemo = {},
+                    onNavigateToFirebaseDemo = {}
                 )
             }
         }
@@ -62,7 +65,8 @@ class MainSelectionScreenTest {
                 MainSelectionScreen(
                     onNavigateToTasksDemo = {},
                     onNavigateToPokemonDemo = { pokemonClicked = true },
-                    onNavigateToCameraDemo = {}
+                    onNavigateToCameraDemo = {},
+                    onNavigateToFirebaseDemo = {}
                 )
             }
         }
@@ -80,12 +84,32 @@ class MainSelectionScreenTest {
                 MainSelectionScreen(
                     onNavigateToTasksDemo = {},
                     onNavigateToPokemonDemo = {},
-                    onNavigateToCameraDemo = { cameraClicked = true }
+                    onNavigateToCameraDemo = { cameraClicked = true },
+                    onNavigateToFirebaseDemo = {}
                 )
             }
         }
 
         composeTestRule.onNodeWithText("Demo Cámara CameraX").performClick()
         assertTrue(cameraClicked)
+    }
+
+    @Test
+    fun clicEnTarjetaFirebase_ejecutaCallback() {
+        var firebaseClicked = false
+
+        composeTestRule.setContent {
+            ArchitectureMobileAppTheme {
+                MainSelectionScreen(
+                    onNavigateToTasksDemo = {},
+                    onNavigateToPokemonDemo = {},
+                    onNavigateToCameraDemo = {},
+                    onNavigateToFirebaseDemo = { firebaseClicked = true }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("Batería Demos Firebase").performClick()
+        assertTrue(firebaseClicked)
     }
 }

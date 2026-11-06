@@ -14,6 +14,17 @@ import com.jassgroup.architecturemobileapp.ui.add_edit.AddEditViewModel
 import com.jassgroup.architecturemobileapp.ui.camera.CameraScreen
 import com.jassgroup.architecturemobileapp.ui.camera.CameraViewModel
 import com.jassgroup.architecturemobileapp.ui.factory.AppViewModelProvider
+import com.jassgroup.architecturemobileapp.ui.firebase.ai.FirebaseAiScreen
+import com.jassgroup.architecturemobileapp.ui.firebase.ai.FirebaseAiViewModel
+import com.jassgroup.architecturemobileapp.ui.firebase.auth.FirebaseAuthScreen
+import com.jassgroup.architecturemobileapp.ui.firebase.auth.FirebaseAuthViewModel
+import com.jassgroup.architecturemobileapp.ui.firebase.crashlytics.CrashlyticsScreen
+import com.jassgroup.architecturemobileapp.ui.firebase.crashlytics.CrashlyticsViewModel
+import com.jassgroup.architecturemobileapp.ui.firebase.firestore.FirestoreScreen
+import com.jassgroup.architecturemobileapp.ui.firebase.firestore.FirestoreViewModel
+import com.jassgroup.architecturemobileapp.ui.firebase.menu.FirebaseMenuScreen
+import com.jassgroup.architecturemobileapp.ui.firebase.remote_config.RemoteConfigScreen
+import com.jassgroup.architecturemobileapp.ui.firebase.remote_config.RemoteConfigViewModel
 import com.jassgroup.architecturemobileapp.ui.home.HomeScreen
 import com.jassgroup.architecturemobileapp.ui.home.HomeViewModel
 import com.jassgroup.architecturemobileapp.ui.main_menu.MainSelectionScreen
@@ -25,10 +36,11 @@ import com.jassgroup.architecturemobileapp.ui.pokemon.list.PokemonListViewModel
 /**
  * Grafo de navegación central de la aplicación.
  *
- * Administra el flujo entre el Menú Principal y los tres demos:
+ * Administra el flujo entre el Menú Principal y los cuatro módulos:
  * 1. Demo Tareas / Notas (Room DB + Flow)
  * 2. Demo Pokédex (PokéAPI + Retrofit + Coil)
  * 3. Demo Cámara (CameraX + Jetpack Compose)
+ * 4. Batería de Demos Firebase (Auth, Firestore, Remote Config, Crashlytics, AI Logic)
  */
 @Composable
 fun AppNavGraph(
@@ -51,13 +63,14 @@ fun AppNavGraph(
                 },
                 onNavigateToCameraDemo = {
                     navController.navigate(Screen.CameraDemo.route)
+                },
+                onNavigateToFirebaseDemo = {
+                    navController.navigate(Screen.FirebaseMenu.route)
                 }
             )
         }
 
         // --- DEMO 1: TAREAS (ROOM DB) ---
-
-        // Listado de Tareas
         composable(route = Screen.Home.route) {
             val homeViewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
             HomeScreen(
@@ -74,7 +87,6 @@ fun AppNavGraph(
             )
         }
 
-        // Agregar Nueva Tarea
         composable(route = Screen.AddTask.route) {
             val addEditViewModel: AddEditViewModel = viewModel(factory = AppViewModelProvider.Factory)
             AddEditTaskScreen(
@@ -86,7 +98,6 @@ fun AppNavGraph(
             )
         }
 
-        // Editar Tarea Existente
         composable(
             route = Screen.EditTask.route,
             arguments = listOf(
@@ -108,8 +119,6 @@ fun AppNavGraph(
         }
 
         // --- DEMO 2: POKÉAPI (RETROFIT + COIL) ---
-
-        // Listado de Pokémon (Grid)
         composable(route = Screen.PokemonList.route) {
             val pokemonListViewModel: PokemonListViewModel = viewModel(factory = AppViewModelProvider.Factory)
             PokemonListScreen(
@@ -123,7 +132,6 @@ fun AppNavGraph(
             )
         }
 
-        // Detalle de Pokémon
         composable(
             route = Screen.PokemonDetail.route,
             arguments = listOf(
@@ -144,7 +152,7 @@ fun AppNavGraph(
             )
         }
 
-        // --- DEMO 3: CAMERAX (CÁMARA Y CAPTURA DE FOTOS) ---
+        // --- DEMO 3: CAMERAX ---
         composable(route = Screen.CameraDemo.route) {
             val cameraViewModel: CameraViewModel = viewModel(factory = AppViewModelProvider.Factory)
             CameraScreen(
@@ -152,6 +160,58 @@ fun AppNavGraph(
                 onNavigateBack = {
                     navController.popBackStack()
                 }
+            )
+        }
+
+        // --- DEMO 4: BATERÍA DE DEMOS FIREBASE ---
+        composable(route = Screen.FirebaseMenu.route) {
+            FirebaseMenuScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToAuth = { navController.navigate(Screen.FirebaseAuth.route) },
+                onNavigateToFirestore = { navController.navigate(Screen.Firestore.route) },
+                onNavigateToRemoteConfig = { navController.navigate(Screen.RemoteConfig.route) },
+                onNavigateToCrashlytics = { navController.navigate(Screen.Crashlytics.route) },
+                onNavigateToAi = { navController.navigate(Screen.FirebaseAi.route) }
+            )
+        }
+
+        composable(route = Screen.FirebaseAuth.route) {
+            val authViewModel: FirebaseAuthViewModel = viewModel(factory = AppViewModelProvider.Factory)
+            FirebaseAuthScreen(
+                viewModel = authViewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(route = Screen.Firestore.route) {
+            val firestoreViewModel: FirestoreViewModel = viewModel(factory = AppViewModelProvider.Factory)
+            FirestoreScreen(
+                viewModel = firestoreViewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(route = Screen.RemoteConfig.route) {
+            val remoteConfigViewModel: RemoteConfigViewModel = viewModel(factory = AppViewModelProvider.Factory)
+            RemoteConfigScreen(
+                viewModel = remoteConfigViewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(route = Screen.Crashlytics.route) {
+            val crashlyticsViewModel: CrashlyticsViewModel = viewModel(factory = AppViewModelProvider.Factory)
+            CrashlyticsScreen(
+                viewModel = crashlyticsViewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(route = Screen.FirebaseAi.route) {
+            val aiViewModel: FirebaseAiViewModel = viewModel(factory = AppViewModelProvider.Factory)
+            FirebaseAiScreen(
+                viewModel = aiViewModel,
+                onNavigateBack = { navController.popBackStack() }
             )
         }
     }

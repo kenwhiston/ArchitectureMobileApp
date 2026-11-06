@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CatchingPokemon
 import androidx.compose.material.icons.filled.Checklist
+import androidx.compose.material.icons.filled.LocalActivity
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
  * 1. Demo de Tareas (Room Database + Flow + MVVM)
  * 2. Demo Pokédex (PokéAPI + Retrofit + Coil + MVVM)
  * 3. Demo Cámara (CameraX + Jetpack Compose + MVVM)
+ * 4. Batería de Demos Firebase (Auth, Firestore, Remote Config, Crashlytics, AI Logic)
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,6 +51,7 @@ fun MainSelectionScreen(
     onNavigateToTasksDemo: () -> Unit,
     onNavigateToPokemonDemo: () -> Unit,
     onNavigateToCameraDemo: () -> Unit,
+    onNavigateToFirebaseDemo: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -113,6 +116,16 @@ fun MainSelectionScreen(
                 badgeText = "CameraX + Compose",
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.6f),
                 onClick = onNavigateToCameraDemo
+            )
+
+            // Opción 4: Batería de Demos Firebase
+            DemoOptionCard(
+                title = "Batería Demos Firebase",
+                subtitle = "Catálogo completo con 5 funcionalidades: Auth (Correo/Gmail), Cloud Firestore (NoSQL), Remote Config, Crashlytics y Firebase AI Logic (Gemini).",
+                icon = Icons.Default.LocalActivity,
+                badgeText = "Firebase Services + Compose",
+                containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f),
+                onClick = onNavigateToFirebaseDemo
             )
         }
     }

@@ -23,6 +23,14 @@ sealed class Screen(val route: String) {
     // Demo Cámara (CameraX)
     data object CameraDemo : Screen("camera_demo")
 
+    // Demos de Firebase Services
+    data object FirebaseMenu : Screen("firebase_menu")
+    data object FirebaseAuth : Screen("firebase_auth")
+    data object Firestore : Screen("firebase_firestore")
+    data object RemoteConfig : Screen("firebase_remote_config")
+    data object Crashlytics : Screen("firebase_crashlytics")
+    data object FirebaseAi : Screen("firebase_ai")
+
     companion object {
         const val TASK_ID_ARG = "taskId"
         const val POKEMON_ID_ARG = "pokemonId"
