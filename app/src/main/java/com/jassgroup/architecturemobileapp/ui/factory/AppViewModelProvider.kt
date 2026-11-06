@@ -7,26 +7,41 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jassgroup.architecturemobileapp.TaskApplication
 import com.jassgroup.architecturemobileapp.ui.add_edit.AddEditViewModel
 import com.jassgroup.architecturemobileapp.ui.home.HomeViewModel
+import com.jassgroup.architecturemobileapp.ui.pokemon.detail.PokemonDetailViewModel
+import com.jassgroup.architecturemobileapp.ui.pokemon.list.PokemonListViewModel
 
 /**
  * Fábrica de ViewModels centralizada.
  *
- * Permite inyectar las dependencias necesarias (como [TaskRepository])
- * en los constructores de los ViewModels sin requerir frameworks de DI adicionales.
+ * Inyecta los repositorios correspondientes en cada ViewModel.
  */
 object AppViewModelProvider {
     val Factory: ViewModelProvider.Factory = viewModelFactory {
-        // Inicializador para HomeViewModel
+        // Inicializador para HomeViewModel (Demo Tareas)
         initializer {
             HomeViewModel(
-                repository = taskApplication().repository
+                repository = taskApplication().taskRepository
             )
         }
 
-        // Inicializador para AddEditViewModel
+        // Inicializador para AddEditViewModel (Demo Tareas)
         initializer {
             AddEditViewModel(
-                repository = taskApplication().repository
+                repository = taskApplication().taskRepository
+            )
+        }
+
+        // Inicializador para PokemonListViewModel (Demo PokéAPI)
+        initializer {
+            PokemonListViewModel(
+                repository = taskApplication().pokemonRepository
+            )
+        }
+
+        // Inicializador para PokemonDetailViewModel (Demo PokéAPI)
+        initializer {
+            PokemonDetailViewModel(
+                repository = taskApplication().pokemonRepository
             )
         }
     }

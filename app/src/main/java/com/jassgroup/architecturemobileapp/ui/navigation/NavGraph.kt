@@ -14,14 +14,18 @@ import com.jassgroup.architecturemobileapp.ui.add_edit.AddEditViewModel
 import com.jassgroup.architecturemobileapp.ui.factory.AppViewModelProvider
 import com.jassgroup.architecturemobileapp.ui.home.HomeScreen
 import com.jassgroup.architecturemobileapp.ui.home.HomeViewModel
+import com.jassgroup.architecturemobileapp.ui.main_menu.MainSelectionScreen
+import com.jassgroup.architecturemobileapp.ui.pokemon.detail.PokemonDetailScreen
+import com.jassgroup.architecturemobileapp.ui.pokemon.detail.PokemonDetailViewModel
+import com.jassgroup.architecturemobileapp.ui.pokemon.list.PokemonListScreen
+import com.jassgroup.architecturemobileapp.ui.pokemon.list.PokemonListViewModel
 
 /**
- * Grafo de navegación central de la aplicación utilizando Navigation Compose.
+ * Grafo de navegación central de la aplicación.
  *
- * Administra el intercambio entre las 3 pantallas principales:
- * 1. Pantalla Home
- * 2. Pantalla Agregar Tarea
- * 3. Pantalla Editar Tarea (pasando taskId como argumento)
+ * Administra el flujo entre el Menú Principal y los dos demos:
+ * 1. Demo Tareas / Notas (Room DB + Flow)
+ * 2. Demo Pokédex (PokéAPI + Retrofit + Coil)
  */
 @Composable
 fun AppNavGraph(
@@ -30,10 +34,24 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route,
+        startDestination = Screen.MainMenu.route,
         modifier = modifier
     ) {
-        // Pantalla 1: Home (Listado de Tareas)
+        // --- MENÚ PRINCIPAL ---
+        composable(route = Screen.MainMenu.route) {
+            MainSelectionScreen(
+                onNavigateToTasksDemo = {
+                    navController.navigate(Screen.Home.route)
+                },
+                onNavigateToPokemonDemo = {
+                    navController.navigate(Screen.PokemonList.route)
+                }
+            )
+        }
+
+        // --- DEMO 1: TAREAS (ROOM DB) ---
+
+        // Listado de Tareas
         composable(route = Screen.Home.route) {
             val homeViewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
             HomeScreen(
@@ -43,11 +61,14 @@ fun AppNavGraph(
                 },
                 onNavigateToEditTask = { taskId ->
                     navController.navigate(Screen.EditTask.createRoute(taskId))
+                },
+                onNavigateBack = {
+                    navController.popBackStack()
                 }
             )
         }
 
-        // Pantalla 2: Agregar Nueva Tarea
+        // Agregar Nueva Tarea
         composable(route = Screen.AddTask.route) {
             val addEditViewModel: AddEditViewModel = viewModel(factory = AppViewModelProvider.Factory)
             AddEditTaskScreen(
@@ -59,7 +80,7 @@ fun AppNavGraph(
             )
         }
 
-        // Pantalla 3: Editar Tarea Existente (recibe el argumento taskId)
+        // Editar Tarea Existente
         composable(
             route = Screen.EditTask.route,
             arguments = listOf(
@@ -74,6 +95,43 @@ fun AppNavGraph(
             AddEditTaskScreen(
                 taskId = taskId,
                 viewModel = addEditViewModel,
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        // --- DEMO 2: POKÉAPI (RETROFIT + COIL) ---
+
+        // Listado de Pokémon (Grid)
+        composable(route = Screen.PokemonList.route) {
+            val pokemonListViewModel: PokemonListViewModel = viewModel(factory = AppViewModelProvider.Factory)
+            PokemonListScreen(
+                viewModel = pokemonListViewModel,
+                onNavigateBack = {
+                    navController.popBackStack()
+                },
+                onNavigateToDetail = { pokemonIdOrName ->
+                    navController.navigate(Screen.PokemonDetail.createRoute(pokemonIdOrName))
+                }
+            )
+        }
+
+        // Detalle de Pokémon
+        composable(
+            route = Screen.PokemonDetail.route,
+            arguments = listOf(
+                navArgument(Screen.POKEMON_ID_ARG) {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
+            )
+        ) { backStackEntry ->
+            val pokemonIdOrName = backStackEntry.arguments?.getString(Screen.POKEMON_ID_ARG) ?: ""
+            val pokemonDetailViewModel: PokemonDetailViewModel = viewModel(factory = AppViewModelProvider.Factory)
+            PokemonDetailScreen(
+                pokemonIdOrName = pokemonIdOrName,
+                viewModel = pokemonDetailViewModel,
                 onNavigateBack = {
                     navController.popBackStack()
                 }

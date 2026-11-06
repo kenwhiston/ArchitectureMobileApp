@@ -2,24 +2,34 @@ package com.jassgroup.architecturemobileapp
 
 import android.app.Application
 import com.jassgroup.architecturemobileapp.data.local.database.TaskDatabase
+import com.jassgroup.architecturemobileapp.data.remote.api.RetrofitClient
+import com.jassgroup.architecturemobileapp.data.repository.PokemonRepository
+import com.jassgroup.architecturemobileapp.data.repository.PokemonRepositoryImpl
 import com.jassgroup.architecturemobileapp.data.repository.TaskRepository
 import com.jassgroup.architecturemobileapp.data.repository.TaskRepositoryImpl
 
 /**
  * Clase Application personalizada para la aplicación.
  *
- * Se utiliza para instanciar la base de datos [TaskDatabase] y el repositorio [TaskRepository]
- * al iniciar la aplicación, asegurando que existan como instancias únicas en el ciclo de vida del proceso.
+ * Mantiene las instancias únicas del Repositorio de Tareas (Room) y del Repositorio de Pokémon (PokéAPI).
  */
 class TaskApplication : Application() {
 
-    // Instancia perezosa (lazy) de la base de datos
+    // Instancia perezosa de la base de datos de tareas
     val database: TaskDatabase by lazy {
         TaskDatabase.getDatabase(this)
     }
 
-    // Instancia perezosa (lazy) del repositorio
-    val repository: TaskRepository by lazy {
+    // Repositorio de tareas (Room)
+    val taskRepository: TaskRepository by lazy {
         TaskRepositoryImpl(database.taskDao())
+    }
+
+    // Alias 'repository' para mantener compatibilidad
+    val repository: TaskRepository get() = taskRepository
+
+    // Repositorio de Pokémon (PokéAPI)
+    val pokemonRepository: PokemonRepository by lazy {
+        PokemonRepositoryImpl(RetrofitClient.pokeApiService)
     }
 }
