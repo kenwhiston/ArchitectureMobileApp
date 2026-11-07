@@ -68,8 +68,8 @@ class PokemonListViewModelTest {
         val state = viewModel.uiState.value
         assertTrue(state is PokemonListUiState.Success)
         val successState = state as PokemonListUiState.Success
-        assertEquals("char", successState.searchQuery)
         assertEquals(1, successState.filteredList.size)
+        assertEquals("char", successState.searchQuery)
         assertEquals("charmander", successState.filteredList[0].name)
     }
 

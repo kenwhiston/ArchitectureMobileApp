@@ -2,15 +2,14 @@ package com.jassgroup.architecturemobileapp.ui.pokemon.detail
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import com.jassgroup.architecturemobileapp.data.remote.model.NamedApiResource
 import com.jassgroup.architecturemobileapp.data.remote.model.PokemonDetailDto
 import com.jassgroup.architecturemobileapp.data.remote.model.StatSlotDto
 import com.jassgroup.architecturemobileapp.data.remote.model.TypeSlotDto
-import com.jassgroup.architecturemobileapp.data.repository.PokemonRepository
+import com.jassgroup.architecturemobileapp.fake.FakePokemonRepository
 import com.jassgroup.architecturemobileapp.ui.theme.ArchitectureMobileAppTheme
-import io.mockk.coEvery
-import io.mockk.mockk
 import org.junit.Rule
 import org.junit.Test
 
@@ -39,8 +38,9 @@ class PokemonDetailScreenTest {
             sprites = null
         )
 
-        val repository: PokemonRepository = mockk()
-        coEvery { repository.getPokemonDetail("pikachu") } returns Result.success(sampleDetail)
+        val repository = FakePokemonRepository(
+            pokemonDetailMap = mapOf("pikachu" to Result.success(sampleDetail))
+        )
         val viewModel = PokemonDetailViewModel(repository)
 
         composeTestRule.setContent {
@@ -53,7 +53,8 @@ class PokemonDetailScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithText("Pikachu").assertIsDisplayed()
+        // Dado que "Pikachu" aparece en la TopBar y en la tarjeta del detalle, verificamos los nodos coincidentes
+        composeTestRule.onAllNodesWithText("Pikachu")[0].assertIsDisplayed()
         composeTestRule.onNodeWithText("#025").assertIsDisplayed()
         composeTestRule.onNodeWithText("Electric").assertIsDisplayed()
         composeTestRule.onNodeWithText("0.4 m").assertIsDisplayed()

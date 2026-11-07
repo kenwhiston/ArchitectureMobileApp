@@ -5,9 +5,8 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.jassgroup.architecturemobileapp.data.repository.TaskRepository
+import com.jassgroup.architecturemobileapp.fake.FakeTaskRepository
 import com.jassgroup.architecturemobileapp.ui.theme.ArchitectureMobileAppTheme
-import io.mockk.mockk
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,7 +20,7 @@ class AddEditTaskScreenTest {
 
     @Test
     fun addEditTaskScreen_modoCreacionMuestraTituloNuevaTarea() {
-        val repository: TaskRepository = mockk(relaxed = true)
+        val repository = FakeTaskRepository()
         val viewModel = AddEditViewModel(repository)
 
         composeTestRule.setContent {
@@ -40,7 +39,7 @@ class AddEditTaskScreenTest {
 
     @Test
     fun addEditTaskScreen_permiteIngresarTextoEnCampos() {
-        val repository: TaskRepository = mockk(relaxed = true)
+        val repository = FakeTaskRepository()
         val viewModel = AddEditViewModel(repository)
 
         composeTestRule.setContent {
@@ -62,7 +61,7 @@ class AddEditTaskScreenTest {
 
     @Test
     fun clicEnGuardarSinTitulo_muestraMensajeDeError() {
-        val repository: TaskRepository = mockk(relaxed = true)
+        val repository = FakeTaskRepository()
         val viewModel = AddEditViewModel(repository)
 
         composeTestRule.setContent {

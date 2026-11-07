@@ -6,11 +6,8 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.jassgroup.architecturemobileapp.data.local.entity.TaskEntity
-import com.jassgroup.architecturemobileapp.data.repository.TaskRepository
+import com.jassgroup.architecturemobileapp.fake.FakeTaskRepository
 import com.jassgroup.architecturemobileapp.ui.theme.ArchitectureMobileAppTheme
-import io.mockk.every
-import io.mockk.mockk
-import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -25,8 +22,7 @@ class HomeScreenTest {
 
     @Test
     fun homeScreen_muestraTituloYEstadoVacio() {
-        val repository: TaskRepository = mockk()
-        every { repository.getAllTasks() } returns flowOf(emptyList())
+        val repository = FakeTaskRepository(emptyList())
         val viewModel = HomeViewModel(repository)
 
         composeTestRule.setContent {
@@ -49,8 +45,7 @@ class HomeScreenTest {
             TaskEntity(id = 1, title = "Tarea A"),
             TaskEntity(id = 2, title = "Tarea B")
         )
-        val repository: TaskRepository = mockk()
-        every { repository.getAllTasks() } returns flowOf(tasks)
+        val repository = FakeTaskRepository(tasks)
         val viewModel = HomeViewModel(repository)
 
         composeTestRule.setContent {
@@ -69,8 +64,7 @@ class HomeScreenTest {
 
     @Test
     fun clicEnFAB_ejecutaCallback() {
-        val repository: TaskRepository = mockk()
-        every { repository.getAllTasks() } returns flowOf(emptyList())
+        val repository = FakeTaskRepository(emptyList())
         val viewModel = HomeViewModel(repository)
         var fabClicked = false
 
