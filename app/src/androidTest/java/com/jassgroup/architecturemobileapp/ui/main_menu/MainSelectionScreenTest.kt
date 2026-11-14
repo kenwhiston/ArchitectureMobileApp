@@ -25,7 +25,8 @@ class MainSelectionScreenTest {
                     onNavigateToTasksDemo = {},
                     onNavigateToPokemonDemo = {},
                     onNavigateToCameraDemo = {},
-                    onNavigateToFirebaseDemo = {}
+                    onNavigateToFirebaseDemo = {},
+                    onNavigateToNotificationsDemo = {}
                 )
             }
         }
@@ -35,6 +36,7 @@ class MainSelectionScreenTest {
         composeTestRule.onNodeWithText("Demo Pokédex PokéAPI").assertIsDisplayed()
         composeTestRule.onNodeWithText("Demo Cámara CameraX").assertIsDisplayed()
         composeTestRule.onNodeWithText("Batería Demos Firebase").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Demo Notificaciones").assertIsDisplayed()
     }
 
     @Test
@@ -47,7 +49,8 @@ class MainSelectionScreenTest {
                     onNavigateToTasksDemo = { tasksClicked = true },
                     onNavigateToPokemonDemo = {},
                     onNavigateToCameraDemo = {},
-                    onNavigateToFirebaseDemo = {}
+                    onNavigateToFirebaseDemo = {},
+                    onNavigateToNotificationsDemo = {}
                 )
             }
         }
@@ -66,7 +69,8 @@ class MainSelectionScreenTest {
                     onNavigateToTasksDemo = {},
                     onNavigateToPokemonDemo = { pokemonClicked = true },
                     onNavigateToCameraDemo = {},
-                    onNavigateToFirebaseDemo = {}
+                    onNavigateToFirebaseDemo = {},
+                    onNavigateToNotificationsDemo = {}
                 )
             }
         }
@@ -85,7 +89,8 @@ class MainSelectionScreenTest {
                     onNavigateToTasksDemo = {},
                     onNavigateToPokemonDemo = {},
                     onNavigateToCameraDemo = { cameraClicked = true },
-                    onNavigateToFirebaseDemo = {}
+                    onNavigateToFirebaseDemo = {},
+                    onNavigateToNotificationsDemo = {}
                 )
             }
         }
@@ -104,12 +109,33 @@ class MainSelectionScreenTest {
                     onNavigateToTasksDemo = {},
                     onNavigateToPokemonDemo = {},
                     onNavigateToCameraDemo = {},
-                    onNavigateToFirebaseDemo = { firebaseClicked = true }
+                    onNavigateToFirebaseDemo = { firebaseClicked = true },
+                    onNavigateToNotificationsDemo = {}
                 )
             }
         }
 
         composeTestRule.onNodeWithText("Batería Demos Firebase").performClick()
         assertTrue(firebaseClicked)
+    }
+
+    @Test
+    fun clicEnTarjetaNotificaciones_ejecutaCallback() {
+        var notificationsClicked = false
+
+        composeTestRule.setContent {
+            ArchitectureMobileAppTheme {
+                MainSelectionScreen(
+                    onNavigateToTasksDemo = {},
+                    onNavigateToPokemonDemo = {},
+                    onNavigateToCameraDemo = {},
+                    onNavigateToFirebaseDemo = {},
+                    onNavigateToNotificationsDemo = { notificationsClicked = true }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("Demo Notificaciones").performClick()
+        assertTrue(notificationsClicked)
     }
 }

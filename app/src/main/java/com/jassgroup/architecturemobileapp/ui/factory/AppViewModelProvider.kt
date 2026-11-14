@@ -13,13 +13,14 @@ import com.jassgroup.architecturemobileapp.ui.firebase.crashlytics.CrashlyticsVi
 import com.jassgroup.architecturemobileapp.ui.firebase.firestore.FirestoreViewModel
 import com.jassgroup.architecturemobileapp.ui.firebase.remote_config.RemoteConfigViewModel
 import com.jassgroup.architecturemobileapp.ui.home.HomeViewModel
+import com.jassgroup.architecturemobileapp.ui.notifications.NotificationsViewModel
 import com.jassgroup.architecturemobileapp.ui.pokemon.detail.PokemonDetailViewModel
 import com.jassgroup.architecturemobileapp.ui.pokemon.list.PokemonListViewModel
 
 /**
  * Fábrica de ViewModels centralizada.
  *
- * Inyecta los repositorios correspondientes en cada ViewModel.
+ * Inyecta los repositorios y contextos correspondientes en cada ViewModel.
  */
 object AppViewModelProvider {
     val Factory: ViewModelProvider.Factory = viewModelFactory {
@@ -62,6 +63,13 @@ object AppViewModelProvider {
         initializer { RemoteConfigViewModel() }
         initializer { CrashlyticsViewModel() }
         initializer { FirebaseAiViewModel() }
+
+        // Inicializador para NotificationsViewModel (Demo Notificaciones)
+        initializer {
+            NotificationsViewModel(
+                application = taskApplication()
+            )
+        }
     }
 }
 

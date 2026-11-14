@@ -31,6 +31,9 @@ sealed class Screen(val route: String) {
     data object Crashlytics : Screen("firebase_crashlytics")
     data object FirebaseAi : Screen("firebase_ai")
 
+    // Demo Notificaciones (NotificationCompat)
+    data object NotificationsDemo : Screen("notifications_demo")
+
     companion object {
         const val TASK_ID_ARG = "taskId"
         const val POKEMON_ID_ARG = "pokemonId"

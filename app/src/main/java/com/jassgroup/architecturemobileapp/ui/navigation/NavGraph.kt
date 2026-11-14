@@ -28,6 +28,8 @@ import com.jassgroup.architecturemobileapp.ui.firebase.remote_config.RemoteConfi
 import com.jassgroup.architecturemobileapp.ui.home.HomeScreen
 import com.jassgroup.architecturemobileapp.ui.home.HomeViewModel
 import com.jassgroup.architecturemobileapp.ui.main_menu.MainSelectionScreen
+import com.jassgroup.architecturemobileapp.ui.notifications.NotificationsScreen
+import com.jassgroup.architecturemobileapp.ui.notifications.NotificationsViewModel
 import com.jassgroup.architecturemobileapp.ui.pokemon.detail.PokemonDetailScreen
 import com.jassgroup.architecturemobileapp.ui.pokemon.detail.PokemonDetailViewModel
 import com.jassgroup.architecturemobileapp.ui.pokemon.list.PokemonListScreen
@@ -36,11 +38,12 @@ import com.jassgroup.architecturemobileapp.ui.pokemon.list.PokemonListViewModel
 /**
  * Grafo de navegación central de la aplicación.
  *
- * Administra el flujo entre el Menú Principal y los cuatro módulos:
+ * Administra el flujo entre el Menú Principal y los cinco módulos:
  * 1. Demo Tareas / Notas (Room DB + Flow)
  * 2. Demo Pokédex (PokéAPI + Retrofit + Coil)
  * 3. Demo Cámara (CameraX + Jetpack Compose)
  * 4. Batería de Demos Firebase (Auth, Firestore, Remote Config, Crashlytics, AI Logic)
+ * 5. Demo Notificaciones (NotificationCompat + Canales Múltiples)
  */
 @Composable
 fun AppNavGraph(
@@ -66,6 +69,9 @@ fun AppNavGraph(
                 },
                 onNavigateToFirebaseDemo = {
                     navController.navigate(Screen.FirebaseMenu.route)
+                },
+                onNavigateToNotificationsDemo = {
+                    navController.navigate(Screen.NotificationsDemo.route)
                 }
             )
         }
@@ -211,6 +217,15 @@ fun AppNavGraph(
             val aiViewModel: FirebaseAiViewModel = viewModel(factory = AppViewModelProvider.Factory)
             FirebaseAiScreen(
                 viewModel = aiViewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        // --- DEMO 5: NOTIFICACIONES (NOTIFICATIONCOMPAT) ---
+        composable(route = Screen.NotificationsDemo.route) {
+            val notificationsViewModel: NotificationsViewModel = viewModel(factory = AppViewModelProvider.Factory)
+            NotificationsScreen(
+                viewModel = notificationsViewModel,
                 onNavigateBack = { navController.popBackStack() }
             )
         }

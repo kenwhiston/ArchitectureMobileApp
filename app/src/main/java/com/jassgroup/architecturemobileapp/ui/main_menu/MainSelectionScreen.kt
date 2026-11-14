@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CatchingPokemon
 import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.LocalActivity
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -44,6 +45,7 @@ import androidx.compose.ui.unit.dp
  * 2. Demo Pokédex (PokéAPI + Retrofit + Coil + MVVM)
  * 3. Demo Cámara (CameraX + Jetpack Compose + MVVM)
  * 4. Batería de Demos Firebase (Auth, Firestore, Remote Config, Crashlytics, AI Logic)
+ * 5. Demo Notificaciones (NotificationCompat + Canales Múltiples)
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,6 +54,7 @@ fun MainSelectionScreen(
     onNavigateToPokemonDemo: () -> Unit,
     onNavigateToCameraDemo: () -> Unit,
     onNavigateToFirebaseDemo: () -> Unit,
+    onNavigateToNotificationsDemo: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -126,6 +129,16 @@ fun MainSelectionScreen(
                 badgeText = "Firebase Services + Compose",
                 containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f),
                 onClick = onNavigateToFirebaseDemo
+            )
+
+            // Opción 5: Demo Notificaciones
+            DemoOptionCard(
+                title = "Demo Notificaciones",
+                subtitle = "Manejo de NotificationCompat, 4 canales dinámicos (NotificationChannel), permiso POST_NOTIFICATIONS (Android 13+), imágenes, acciones y barra de progreso.",
+                icon = Icons.Default.Notifications,
+                badgeText = "NotificationCompat + Channels",
+                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f),
+                onClick = onNavigateToNotificationsDemo
             )
         }
     }
